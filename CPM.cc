@@ -1,6 +1,19 @@
 #include <iostream>
+#include <exception>
 
 #include "CPM.hh"
+
+class CPM_exception : public std::exception
+{
+	std::string _msg;
+
+	public: 
+	CPM_exception(std::string message) : _msg(message){};
+
+	virtual const char* what() const throw(){
+		return _msg.c_str();
+	}
+};
 
 std::map<const std::string, RK::CPM::interpreterFunc> RK::CPM::parameterFunctions;
 
@@ -23,7 +36,7 @@ std::string RK::CPM::extractValue(char* arg, std::string delimiter){
 	return value;
 }
 
-bool RK::CPM::interpret(char* arg, std::string delimiter){
+void RK::CPM::interpret(char* arg, std::string delimiter){
 	std::string argument = arg;
 	size_t delimiterIndex = argument.find(delimiter);
 	if(delimiterIndex != std::string::npos){
@@ -33,19 +46,15 @@ bool RK::CPM::interpret(char* arg, std::string delimiter){
 			std::string value = argument.substr(delimiterIndex + 1, argument.size());
 			it->second(value);
 		}else{
-			std::cerr << "[RK::CPM::interpret()] No Interpreter function for \"" << parameter <<  "\" in \"" << argument << "\" found." << std::endl;
-			return false;
+			throw CPM_exception("[RK::CPM::interpret()] No Interpreter function for \"" + parameter +  "\" in \"" + argument + "\" found.");
 		}
 	}else{
-		std::cerr << "[RK::CPM::interpret()] Argument \"" << argument << "\" is invalid. Should have a delimiter as specified by user" << std::endl;
-		return false;
+		throw CPM_exception("[RK::CPM::interpret()] Argument \"" + argument + "\" is invalid. Should have a delimiter as specified by user");
 	}
 }
 
-unsigned int RK::CPM::interpret(int argumentCount, char* arguments[], std::string delimiter){
-	unsigned int failed = 0;
+void RK::CPM::interpret(int argumentCount, char* arguments[], std::string delimiter){
 	for(int i = 0; i < argumentCount; i++){
-		if(!interpret(arguments[i], delimiter)) failed++;
+		interpret(arguments[i], delimiter);
 	}
-	return failed;
 }

@@ -1,18 +1,18 @@
 /*
 
 Commandline Parameter Management
-This allows the user to give the program a string of commandline parameters (or arguments) 
-and they will be automatically identified and passed to the corresponding functions.
-The order doesn't matter and not all arguments have to be specified
-Interpretation is up to the user. 
-This class just passes the argumentvalues to the user defined functions.
+This allows the user to give the program a string of commandline arguments 
+and they will be automatically identified and passed to the corresponding functions. 
+The order in which the arguments are written doesn't matter and not all arguments 
+have to be specified. Interpretation of the values is up to the user. 
+The user has to create a function for each argument that handles the value. 
 
 EXAMPLE:
 
 functions
-saveArgument(char* value);
-speedArgument(char* value);
-nameArgument(char* value);
+saveInterpret(std::string value);
+speedInterpret(std::string value);
+nameInterpret(std::string value);
 
 command line arguments
 name=Richard save=true kefir=drink
@@ -22,8 +22,8 @@ speed=10.0 is arg[1] cstring and its value[1] = "10.0"
 kefir=drink is arg[2] cstring and its value[2] = "drink"
 
 executes functions
-nameArgument("Richard");
-speedArgument("10.0");
+nameInterpret("Richard");
+speedInterpret("10.0");
 >exception kefir is unknown parameter
 
 */
@@ -55,16 +55,14 @@ namespace RK{
 		
 		/*
 		sends the value to the appropriate function
-			return true on success
 		*/
-		bool interpret(char* argument, std::string delimiter = "=");
+		void interpret(char* argument, std::string delimiter = "=");
 		
 		/*
 		iterates through all arguments in the array
 		sends the value to the appropriate function
-			returns the amount of failed recognition attempts
 		*/
-		unsigned int interpret(int argumentCount, char* arguments[], std::string delimiter = "=");
+		void interpret(int argumentCount, char* arguments[], std::string delimiter = "=");
 
 	}
 }
