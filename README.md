@@ -5,27 +5,53 @@ This allows the user to give the program a string of commandline arguments and t
 
 <h3> EXAMPLE: </h3>
 
-<p>
-<b>functions</b><br>
-saveArgument(std::string value);<br>
-speedArgument(std::string value);<br>
-nameArgument(std::string value);<br>
-</p>
-<p>
-<b>command line arguments</b>
-name=Richard save=true kefir=drink<br>
-</p>
-<p>
-name=Richard is arg[0] cstring and its value[0] = "Richard"<br>
-speed=10.0 is arg[1] cstring and its value[1] = "10.0"<br>
-kefir=drink is arg[2] cstring and its value[2] = "drink"<br>
-</p>
-<p>
-<b>executes functions</b><br>
-nameArgument("Richard");<br>
-speedArgument("10.0");<br>
-exception kefir is unknown parameter<br>
-</p>
+```
+#include <iostream>
+#include <exception>
+#include "CPM.hh"
+
+//interpreter functions
+void test(std::string value){
+	std::cout << "test: " << value << std::endl;
+}
+void sausage(std::string value){
+	std::cout << "sausage: " << value << std::endl;
+}
+void beer(std::string value){
+	std::cout << "beer: " << value << std::endl;
+}
+
+int main(int argc, char* argv[]){
+
+	//set up parameters
+	RK::CPM::parameterFunctions = {
+		{"test", test},
+		{"sausage", sausage},
+		{"beer", beer}
+	};
+
+	//run interpreter on all arguments
+	try{
+		//first argument is always the program executable
+		RK::CPM::interpret(argc - 1, &argv[1]);
+	}catch(std::exception& e){
+		std::cerr << e.what() << std::endl;
+	}
+	
+	return 0;
+}
+```
+If you run your application like this:<br>
+```
+applicationName test=4 beer=drinkingContest bullshit=failure sausage=meat
+```
+You will receive following message:
+```
+test: 4
+beer: drinkingContest
+[RK::CPM::interpret()] No Interpreter function for "bullshit" in "bullshit=failure" found.
+```
+
 <p>
 I know Cmake is a bit overkill at this size of a project (it was for learning purposes). <br>
 Maybe I will make it a header only in the future.
