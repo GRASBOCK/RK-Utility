@@ -12,8 +12,8 @@ enable_language(CXX)
 
 #declare module
 set(sources "src/CAP.cc")
-add_library(RK_UTILITY ${sources})
+add_library(RK_CAP ${sources})
 
 #everyone who needs this module will need these headers
-target_include_directories(RK_UTILITY PUBLIC include)
-target_include_directories(RK_UTILITY PRIVATE src)
+target_include_directories(RK_CommandArgumentParser PUBLIC include)
+target_include_directories(RK_CommandArgumentParser PRIVATE src)
