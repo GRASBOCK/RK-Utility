@@ -15,5 +15,5 @@ set(sources "src/CAP.cc")
 add_library(RK_CAP ${sources})
 
 #everyone who needs this module will need these headers
-target_include_directories(RK_CommandArgumentParser PUBLIC include)
-target_include_directories(RK_CommandArgumentParser PRIVATE src)
+target_include_directories(RK_CAP PUBLIC include)
+target_include_directories(RK_CAP PRIVATE src)
