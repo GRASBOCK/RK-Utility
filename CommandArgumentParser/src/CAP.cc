@@ -1,23 +1,23 @@
 #include <iostream>
 #include <exception>
 
-#include "CPM.hh"
+#include "CAP.hh"
 
-class CPM_exception : public std::exception
+class CAP_exception : public std::exception
 {
 	std::string _msg;
 
 	public: 
-	CPM_exception(std::string message) : _msg(message){};
+	CAP_exception(std::string message) : _msg(message){};
 
 	virtual const char* what() const throw(){
 		return _msg.c_str();
 	}
 };
 
-std::map<const std::string, RK::CPM::interpreterFunc> RK::CPM::parameterFunctions;
+std::map<const std::string, RK::CAP::interpreterFunc> RK::CAP::parameterFunctions;
 
-std::string RK::CPM::extractParameter(char* arg, std::string delimiter){
+std::string RK::CAP::extractParameter(char* arg, std::string delimiter){
 	std::string argument = arg;
 	std::string parameter;
 	size_t delimiterIndex = argument.find(delimiter);
@@ -26,7 +26,7 @@ std::string RK::CPM::extractParameter(char* arg, std::string delimiter){
 	return parameter;
 }
 
-std::string RK::CPM::extractValue(char* arg, std::string delimiter){
+std::string RK::CAP::extractValue(char* arg, std::string delimiter){
 	std::string argument = arg;
 	std::string parameter;
 	size_t delimiterIndex = argument.find(delimiter);
@@ -36,7 +36,7 @@ std::string RK::CPM::extractValue(char* arg, std::string delimiter){
 	return value;
 }
 
-void RK::CPM::interpret(char* arg, std::string delimiter){
+void RK::CAP::interpret(char* arg, std::string delimiter){
 	std::string argument = arg;
 	size_t delimiterIndex = argument.find(delimiter);
 	if(delimiterIndex != std::string::npos){
@@ -46,14 +46,14 @@ void RK::CPM::interpret(char* arg, std::string delimiter){
 			std::string value = argument.substr(delimiterIndex + 1, argument.size());
 			it->second(value);
 		}else{
-			throw CPM_exception("[RK::CPM::interpret()] No Interpreter function for \"" + parameter +  "\" in \"" + argument + "\" found.");
+			throw CAP_exception("[RK::CAP::interpret()] No Interpreter function for \"" + parameter +  "\" in \"" + argument + "\" found.");
 		}
 	}else{
-		throw CPM_exception("[RK::CPM::interpret()] Argument \"" + argument + "\" is invalid. Should have a delimiter as specified by user");
+		throw CAP_exception("[RK::CAP::interpret()] Argument \"" + argument + "\" is invalid. Should have a delimiter as specified by user");
 	}
 }
 
-void RK::CPM::interpret(int argumentCount, char* arguments[], std::string delimiter){
+void RK::CAP::interpret(int argumentCount, char* arguments[], std::string delimiter){
 	for(int i = 0; i < argumentCount; i++){
 		interpret(arguments[i], delimiter);
 	}

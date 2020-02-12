@@ -1,40 +1,10 @@
-/*
-
-Commandline Parameter Management
-This allows the user to give the program a string of commandline arguments 
-and they will be automatically identified and passed to the corresponding functions. 
-The order in which the arguments are written doesn't matter and not all arguments 
-have to be specified. Interpretation of the values is up to the user. 
-The user has to create a function for each argument that handles the value. 
-
-EXAMPLE:
-
-functions
-saveInterpret(std::string value);
-speedInterpret(std::string value);
-nameInterpret(std::string value);
-
-command line arguments
-name=Richard save=true kefir=drink
-
-name=Richard is arg[0] cstring and its value[0] = "Richard"
-speed=10.0 is arg[1] cstring and its value[1] = "10.0"
-kefir=drink is arg[2] cstring and its value[2] = "drink"
-
-executes functions
-nameInterpret("Richard");
-speedInterpret("10.0");
->exception kefir is unknown parameter
-
-*/
-
 #pragma once
 
 #include <string>
 #include <map>
 
 namespace RK{
-	namespace CPM{
+	namespace CAP{
 		//defines the structure of an interpreter function
 		typedef void (*interpreterFunc)(std::string value);
 

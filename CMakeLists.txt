@@ -1,2 +1,3 @@
-enable_language(CXX)
-add_library(RK_CPM CPM.cc)
+cmake_minimum_required(VERSION 3.1)
+
+add_subdirectory(CommandArgumentParser)
