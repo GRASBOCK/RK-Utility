@@ -1,5 +1,9 @@
-# Commandline-Parameter-Manager
-A simple commandline argument manager. 
+# RK-Utility
+This repository contains my own utility stuff, that I use often.
+
+<p>Currently it contains only the <b>Command-Argumnet-Parser</b>. In the future there will be more once I have a proper documentation system.</p>
+
+A simple commandline argument parser. 
 
 This allows the user to give the program a string of commandline arguments and they will be automatically identified and passed to the corresponding functions. The order in which the arguments are written doesn't matter and not all arguments have to be specified. Interpretation o fthe values is up to the user. The user has to create a function for each argument that handles the value. 
 
@@ -8,7 +12,7 @@ This allows the user to give the program a string of commandline arguments and t
 ```
 #include <iostream>
 #include <exception>
-#include "CPM.hh"
+#include "CAP.hh"
 
 //interpreter functions
 void test(std::string value){
@@ -24,7 +28,7 @@ void beer(std::string value){
 int main(int argc, char* argv[]){
 
 	//set up parameters
-	RK::CPM::parameterFunctions = {
+	RK::CAP::parameterFunctions = {
 		{"test", test},
 		{"sausage", sausage},
 		{"beer", beer}
@@ -33,7 +37,7 @@ int main(int argc, char* argv[]){
 	//run interpreter on all arguments
 	try{
 		//first argument is always the program executable
-		RK::CPM::interpret(argc - 1, &argv[1]);
+		RK::CAP::interpret(argc - 1, &argv[1]);
 	}catch(std::exception& e){
 		std::cerr << e.what() << std::endl;
 	}
@@ -49,7 +53,7 @@ You will receive following message:
 ```
 test: 4
 beer: drinkingContest
-[RK::CPM::interpret()] No Interpreter function for "bullshit" in "bullshit=failure" found.
+[RK::CAP::interpret()] No Interpreter function for "bullshit" in "bullshit=failure" found.
 ```
 
 <p>
