@@ -1,13 +1,56 @@
 # RK-Utility
 This repository contains my own utility stuff, that I use often.
 
-<p>Currently it contains only the <b>Command-Argumnet-Parser</b>. In the future there will be more once I have a proper documentation system.</p>
+<p>
+<ul class="toc_list">
+	<li><a href="#CAP">Command Argument Parser</a>
+		<ul>
+			<li><a href="#CAP_usage">Usage</a></li>
+			<li><a href="#CAP_example">Example</a></li>
+		</ul>
+	</li>
+	<li><a href="#Future Content">Future Content</a></li>
+</ul>
+</p>
 
-A simple commandline argument parser. 
+<h2 id="CAP">Command Argument Parser</h2>
 
-This allows the user to give the program a string of commandline arguments and they will be automatically identified and passed to the corresponding functions. The order in which the arguments are written doesn't matter and not all arguments have to be specified. Interpretation o fthe values is up to the user. The user has to create a function for each argument that handles the value. 
+Allows the user to give the program a string of commandline arguments and they will be automatically identified and passed to the corresponding functions. 
+<ul class="toc_list">
+	<li>order in which the arguments are written doesn't matter</li>
+	<li>interpretation of the values is up to the user</li>
+	<li>not all arguments have to be specified by the one typing in the command, even if the user has specified more options</li>
+</ul>
 
-<h3> EXAMPLE: </h3>
+<h3 id="CAP_usage">Usage</h3>
+Write an interpreter function for the values passed to the argument by the user<br>
+
+```
+void interpretTest(std::string value){
+	std::cout << "test: " << value << std::endl;
+}
+```
+
+set parameters and associate them with their interpreter function<br>
+
+```
+RK::CAP::parameterFunctions = {
+	{"test", interpretTest}
+};
+```
+
+run interpreter on all arguments (in this example taken from commandline)<br>
+
+```
+try{
+	//first argument is always the program executable
+	RK::CAP::interpret(argc - 1, &argv[1]);
+}catch(std::exception& e){
+	std::cerr << e.what() << std::endl;
+}
+```
+
+<h3 id="CAP_example">Example</h3>
 
 ```
 #include <iostream>
@@ -57,6 +100,6 @@ beer: drinkingContest
 ```
 
 <p>
-I know Cmake is a bit overkill at this size of a project (it was for learning purposes). <br>
-Maybe I will make it a header only in the future.
+I know Cmake is a bit overkill at this size of a project. <br>
+I will add new libraries to it later though.
 </p>
